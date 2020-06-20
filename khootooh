@@ -1,0 +1,21 @@
+import re
+import urllib.request
+
+def getlink(url):
+    headers=("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko")
+    opener=urllib.request.build_opener()
+    opener.addheaders=[headers]
+    urllib.request.install_opener(opener)
+    file=urllib.request.urlopen(url)
+    data=str(file.read())
+    pat='(https?:\/\/[^\s)";]+\.(\w|\/)*)'
+    link=re.compile(pat).findall(data)
+    link=list(set(link))
+    return link
+
+url="https://www.ntnu.edu.tw/"
+linklist=getlink(url)
+
+for link in linklist:
+    print(link[0])  #範例內底是按呢寫
+    print(link)     #我共改做按呢了，才知原來隨个link攏是tuple，毋過...是按怎會是tuple咧？
